@@ -9,6 +9,7 @@ import ru.cleverpumpkin.calendar.CalendarView
 import ru.cleverpumpkin.calendar.extension.getColorInt
 import ru.cleverpumpkin.calendar.sample.BaseFragment
 import ru.cleverpumpkin.calendar.sample.R
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -44,15 +45,17 @@ class EventListDemoFragment : BaseFragment() {
 
     private fun showDialogWithEventsForSpecificDate(date: CalendarDate) {
         val eventItems = calendarView.getDateIndicators(date)
-            .filterIsInstance<EventItem>()
-            .toTypedArray()
+                .filterIsInstance<EventItem>()
+                .toTypedArray()
 
         if (eventItems.isNotEmpty()) {
             val adapter = EventDialogAdapter(requireContext(), eventItems)
+            var originalDate: Date = SimpleDateFormat("dd/MM/yyyy").parse("$date");
+            var formattedDate = SimpleDateFormat("MM/dd/yyyy").format(originalDate);
 
             val builder = AlertDialog.Builder(requireContext())
-                .setTitle("$date")
-                .setAdapter(adapter, null)
+                    .setTitle("$formattedDate")
+                    .setAdapter(adapter, null)
 
             val dialog = builder.create()
             dialog.show()
